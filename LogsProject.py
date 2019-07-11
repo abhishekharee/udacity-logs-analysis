@@ -1,14 +1,15 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # Import PostgreSQL library
 import psycopg2
 
-# Question 1: What are the most popular three articles of all time?
-
 # Connect to 'news' database
-db = psycopg2.connect(database = "news")
+db = psycopg2.connect(database="news")
 # Create cursor
 cursor = db.cursor()
+
+# Question 1: What are the most popular three articles of all time?
+
 # Execute query
 cursor.execute(
     '''SELECT
@@ -41,13 +42,10 @@ results = cursor.fetchall()
 # Print results
 print 'The top three articles are:'
 for i in results:
-  print "  ", i[0], "(", i[1], "Views )"
-# Disconnect from database
-db.close()
+    print "  ", i[0], "(", i[1], "Views )"
 
 # Question 2: Who are the most popular article authors of all time?
 
-db = psycopg2.connect(database = "news")
 cursor = db.cursor()
 cursor.execute(
     '''SELECT
@@ -79,12 +77,10 @@ cursor.execute(
 results = cursor.fetchall()
 print 'The most popular authors, by page view, are:'
 for i in results:
-  print "  ", i[0], "(", i[1], "Views )"
-db.close()
+    print "  ", i[0], "(", i[1], "Views )"
 
 # Question 3: On which days did more than 1% of requests lead to errors?
 
-db = psycopg2.connect(database = "news")
 cursor = db.cursor()
 cursor.execute(
     '''SELECT
@@ -112,7 +108,7 @@ cursor.execute(
          (
            SELECT
              DATE(time) as date,
-             COUNT(status) total_hits 
+             COUNT(status) total_hits
            FROM
              log
            GROUP BY
@@ -134,5 +130,7 @@ cursor.execute(
 results = cursor.fetchall()
 print 'Days where errors exceeded 1% are:'
 for i in results:
-  print "  ", i[0], "( Error Rate:", i[1], ")"
+    print "  ", i[0], "( Error Rate:", i[1], ")"
+
+# Disconnect from database
 db.close()
